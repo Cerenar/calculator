@@ -48,7 +48,17 @@ function operate (operator, a, b) {
 	}
 }
 
+function displayStuff () {
+	if (display.textContent.length < 10) {
+		display.textContent += this.textContent;
+	}
+}
+
 console.log(add(3,4));
 console.log(subtract(4,3));
 console.log(multiply(3,4));
 console.log(divide(4,0));
+
+const buttons = document.querySelectorAll("button");
+buttons.forEach(button => button.addEventListener("click", displayStuff));
+const display = document.querySelector("#display");
