@@ -34,7 +34,6 @@ html {
 
 #buttons-container {
 	display: flex;
-	/*border: 2px solid red;*/
 	height: 400px;
 	padding: 16px;
 	gap: 12px;
@@ -74,7 +73,7 @@ button:active {
 }
 
 #enter:active {
- background-color: #d89000;
+	background-color: #d89000;
 }
 
 .operator {
