@@ -50,9 +50,6 @@ function operate (operator, a, b) {
 	else if (operator === "/") {
 		return divide(a, b);
 	}
-	else if (operator === "%") {
-		return percent(a, b);
-	}
 	else {
 		return currentData;
 	}
@@ -87,10 +84,31 @@ function displayStuff () {
 	}
 }
 
+function displayDecimalPoint () {
+	if (!display.textContent.includes(".") && !previousButton.classList.contains("operator")) {
+		display.textContent += ".";
+	}
+	else if (previousButton.classList.contains("operator")) {
+		display.textContent = this.textContent;
+	}
+}
+
 function deleteStuff () {
 	let text = display.textContent;
 	let editedText = text.slice(0, -1)
 	display.textContent = editedText;
+}
+
+function changeSign () {
+	let currentSign = parseFloat(display.textContent);
+	if (currentSign > 0 && display.textContent.length < 9) {
+		display.textContent = "-" + display.textContent;
+	}
+	else if (currentSign < 0) {
+		let text = display.textContent;
+		let editedText = text.substring(1)
+		display.textContent = editedText;
+	}
 }
 
 function storeData () {
@@ -114,6 +132,9 @@ clear.addEventListener("click", clearDisplay);
 const buttons = document.querySelectorAll("button");
 buttons.forEach(button => button.addEventListener("click", displayStuff));
 
+const decimalPoint = document.querySelector("#decimal");
+decimalPoint.addEventListener("click", displayDecimalPoint);
+
 /*const operands = document.querySelectorAll(".operand");
 operands.forEach(operand => operand.addEventListener("click", displayStuff));*/
 
@@ -122,6 +143,8 @@ display.textContent = "0";
 
 const operators = document.querySelectorAll(".operator");
 const percentCalc = document.querySelector("#percent");
+const inverter = document.querySelector("#invert");
+inverter.addEventListener("click", changeSign);
 
 let previousOperator = "";
 let previousData = 0;
@@ -129,15 +152,38 @@ let previousButton;
 let currentData = 0;
 
 percentCalc.addEventListener("click", () => {
-	display.textContent = parseFloat(display.textContent)/100;
+	let temp = parseFloat(display.textContent)/100;
+	if (temp > -99999999 && temp < 999999999) {
+		display.textContent = temp;
+	}
+	else {
+		display.textContent = temp.toExponential(2);
+	}
 })
+
+// When an operator button is pressed
 operators.forEach(operator => operator.addEventListener("click", () => {
+	// The currrent number in the display is stored as 
 	currentData = parseFloat(display.textContent);
 	let result = operate(previousOperator, previousData, currentData);
 	previousButton = operator;
 	previousData = result;
 	previousOperator = operator.textContent;
-	display.textContent = result;
+	if (result > -99999999 && result < 999999999) {
+		display.textContent = result;
+	}
+	else if (result > 1e100 || result < -1e100) {
+		display.textContent = "OVERFLOW";
+	}
+	else if (result === "...why?") {
+		display.textContent = "...why?";
+		previousOperator = "";
+		previousData = 0;
+		currentData = 0;
+	}
+	else {
+		display.textContent = result.toExponential(2);
+	}
 }))
 
 const backspace = document.querySelector("#backspace");
