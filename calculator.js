@@ -150,12 +150,22 @@ let previousButton;
 let currentData = 0;
 
 percentCalc.addEventListener("click", () => {
-	let temp = parseFloat(display.textContent)/100;
-	if (temp > -99999999 && temp < 999999999) {
-		display.textContent = temp;
+	let regex = /[^\w\s\-]/;
+	let result = parseFloat(display.textContent)/100;
+	let resultString = result.toString();
+	if (resultString.search(regex) > 0 && resultString.search(regex) < 8) {
+		result = result.toFixed(8-resultString.search(regex));
+		display.textContent = result;
+	}
+	else if (result < 0 && resultString.search(regex) > 0 && resultString.search(regex) < 8) {
+		result = result.toFixed(8-resultString.search(regex));
+		display.textContent = result;
+	}
+	if (result > -999999 && result < 9999999) {
+		display.textContent = result;
 	}
 	else {
-		display.textContent = temp.toExponential(2);
+		display.textContent = result.toExponential(2);
 	}
 })
 
@@ -163,13 +173,22 @@ percentCalc.addEventListener("click", () => {
 operators.forEach(operator => operator.addEventListener("click", () => {
 	// The currrent number in the display is stored as 
 	currentData = parseFloat(display.textContent);
+	let regex = /[^\w\s\-]/;
 	let result = operate(previousOperator, previousData, currentData);
 	let resultString = result.toString();
 	previousButton = operator;
 	previousData = result;
 	previousOperator = operator.textContent;
-	console.log(resultString.search(/[^\w\s]/)-1);
-	if (result > -99999999 && result < 999999999) {
+	console.log(resultString.search(regex));
+	if (result > 0 && resultString.search(regex) > 0 && resultString.search(regex) < 8) {
+		result = result.toFixed(8-resultString.search(regex));
+		display.textContent = result;
+	}
+	else if (result < 0 && resultString.search(regex) > 0 && resultString.search(regex) < 8) {
+		result = result.toFixed(8-resultString.search(regex));
+		display.textContent = result;
+	}
+	if (result > -999999 && result < 9999999) {
 		display.textContent = result;
 	}
 	else if (result > 1e100 || result < -1e100) {
