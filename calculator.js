@@ -37,7 +37,6 @@ function divide (a, b) {
 Function: operate
 Goals: 		Work as an event handler for operators and operands.
 */
-
 function operate (operator, a, b) {
 	if (operator === "+") {
 		return add(a, b);
@@ -50,6 +49,9 @@ function operate (operator, a, b) {
 	}
 	else if (operator === "/") {
 		return divide(a, b);
+	}
+	else if (operator === "%") {
+		return percent(a, b);
 	}
 	else {
 		return currentData;
@@ -85,6 +87,12 @@ function displayStuff () {
 	}
 }
 
+function deleteStuff () {
+	let text = display.textContent;
+	let editedText = text.slice(0, -1)
+	display.textContent = editedText;
+}
+
 function storeData () {
 	previousData = parseFloat(display.textContent);
 	previousOperand = this.textContent;
@@ -113,11 +121,16 @@ const display = document.querySelector("#display");
 display.textContent = "0";
 
 const operators = document.querySelectorAll(".operator");
+const percentCalc = document.querySelector("#percent");
 
 let previousOperator = "";
 let previousData = 0;
 let previousButton;
 let currentData = 0;
+
+percentCalc.addEventListener("click", () => {
+	display.textContent = parseFloat(display.textContent)/100;
+})
 operators.forEach(operator => operator.addEventListener("click", () => {
 	currentData = parseFloat(display.textContent);
 	let result = operate(previousOperator, previousData, currentData);
@@ -127,14 +140,8 @@ operators.forEach(operator => operator.addEventListener("click", () => {
 	display.textContent = result;
 }))
 
-//const backspace = document.querySelector("#backspace");
-/*operators.forEach(operator => operator.addEventListener ("click", () => {
-	let previousData = parseInt(display.textContent);
-	let currentData = 0;
-	let result = operate(operator.textContent, previousData, currentData);
-	console.log(result);
-}));*/
-// backspace.addEventListener("click", deleteStuff);
+const backspace = document.querySelector("#backspace");
+backspace.addEventListener("click", deleteStuff);
 
 /*
 When a button is clicked, do two things: update the display and store it as data.
