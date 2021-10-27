@@ -155,14 +155,14 @@ percentCalc.addEventListener("click", () => {
 	let resultString = result.toString();
 	if (resultString.search(regex) > 0 && resultString.search(regex) < 8) {
 		result = result.toFixed(8-resultString.search(regex));
-		display.textContent = result;
+		display.textContent = +result;
 	}
 	else if (result < 0 && resultString.search(regex) > 0 && resultString.search(regex) < 8) {
 		result = result.toFixed(8-resultString.search(regex));
-		display.textContent = result;
+		display.textContent = +result;
 	}
 	if (result > -999999 && result < 9999999) {
-		display.textContent = result;
+		display.textContent = +result;
 	}
 	else {
 		display.textContent = result.toExponential(2);
@@ -182,14 +182,14 @@ operators.forEach(operator => operator.addEventListener("click", () => {
 	console.log(resultString.search(regex));
 	if (result > 0 && resultString.search(regex) > 0 && resultString.search(regex) < 8) {
 		result = result.toFixed(8-resultString.search(regex));
-		display.textContent = result;
+		display.textContent = +result;
 	}
 	else if (result < 0 && resultString.search(regex) > 0 && resultString.search(regex) < 8) {
 		result = result.toFixed(8-resultString.search(regex));
-		display.textContent = result;
+		display.textContent = +result;
 	}
 	if (result > -999999 && result < 9999999) {
-		display.textContent = result;
+		display.textContent = +result;
 	}
 	else if (result > 1e100 || result < -1e100) {
 		display.textContent = "OVERFLOW";
