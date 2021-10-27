@@ -64,32 +64,38 @@ function displayStuff () {
 	if (display.textContent === "0" && this.classList.contains("operand")) {
 		display.textContent = this.textContent;
 		previousButton = this;
-		console.log(previousButton);
+		//console.log(previousButton);
 	}
 	else if (display.textContent.length < 9 && this.classList.contains("operand") && !previousButton.classList.contains("operator")) {
 		display.textContent += this.textContent;
 		previousButton = this;
-		console.log(previousButton);
+		//console.log(previousButton);
 	}
 	else if (previousButton.classList.contains("operator") && this.classList.contains("operand")) {
 		display.textContent = this.textContent;
 		previousButton = this;
-		console.log(previousButton);
+		//console.log(previousButton);
+	}
+	/*else if (previousButton.id("decimal") && this.classList.contains("operand")) {
+		display.textContent += this.textContent;
+		previousButton = this;
 	}
 	else if (previousButton.id.contains("enter") && this.classList.contains("operand")) {
 		previousOperator = "";
 		previousData = 0;
 		display.textContent = this.textContent;
-		console.log(previousButton);
-	}
+		//console.log(previousButton);
+	}*/
 }
 
 function displayDecimalPoint () {
 	if (!display.textContent.includes(".") && !previousButton.classList.contains("operator")) {
 		display.textContent += ".";
+		previousButton = this;
 	}
 	else if (previousButton.classList.contains("operator")) {
-		display.textContent = this.textContent;
+		display.textContent = "0.";
+		previousButton = this;
 	}
 }
 
@@ -106,17 +112,9 @@ function changeSign () {
 	}
 	else if (currentSign < 0) {
 		let text = display.textContent;
-		let editedText = text.substring(1)
+		let editedText = text.substring(1);
 		display.textContent = editedText;
 	}
-}
-
-function storeData () {
-	previousData = parseFloat(display.textContent);
-	previousOperand = this.textContent;
-	console.log(previousData);
-	console.log(previousOperand);
-	return;
 }
 
 function clearDisplay () {
@@ -166,9 +164,11 @@ operators.forEach(operator => operator.addEventListener("click", () => {
 	// The currrent number in the display is stored as 
 	currentData = parseFloat(display.textContent);
 	let result = operate(previousOperator, previousData, currentData);
+	let resultString = result.toString();
 	previousButton = operator;
 	previousData = result;
 	previousOperator = operator.textContent;
+	console.log(resultString.search(/[^\w\s]/)-1);
 	if (result > -99999999 && result < 999999999) {
 		display.textContent = result;
 	}
