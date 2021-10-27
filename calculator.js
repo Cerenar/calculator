@@ -77,6 +77,12 @@ function displayStuff () {
 		previousButton = this;
 		console.log(previousButton);
 	}
+	else if (previousButton.id.contains("enter") && this.classList.contains("operand")) {
+		previousOperator = "";
+		previousData = 0;
+		display.textContent = this.textContent;
+		console.log(previousButton);
+	}
 }
 
 function storeData () {
