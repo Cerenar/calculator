@@ -63,12 +63,12 @@ button {
 }
 
 button:hover {
-	scale: 1.1;
+	transform: scale(1.1);
 	cursor: pointer;
 }
 
 button:active {
-	scale: 1.02;
+	transform: scale(1.02);
 	background-color: #CCCCCC;
 }
 
