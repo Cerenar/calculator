@@ -1,9 +1,9 @@
 const readout = document.querySelector("#readout");
 const buttons = document.querySelectorAll("button");
 
-let operandOne = 0;
-let operandTwo = 0;
-let operator = '';
+let operandOne = null;
+let operandTwo = null;
+let operator = null;
 
 function add (a, b) {
     return a+b;
@@ -18,6 +18,9 @@ function multiply (a, b) {
 }
 
 function divide (a, b) {
+    if (b === 0) {
+        readout.innerText = "try again";
+    }
     return a/b;
 }
 
@@ -52,19 +55,36 @@ buttons.forEach ((button) => {
                 clearDisplay();
                 break;
             case 'multiply':
-                operandOne = parseInt(readout.innerText);
                 operator = 'multiply';
+                if (operandOne !== null) {
+                    let temp = operandTwo;
+                    operandOne = temp;
+                    operandTwo = readout.innerText;
+                    clearDisplay();
+                    readout.innerText = operate(operator, operandOne, operandTwo);
+                    operandOne = readout.innerText;
+                    break;
+                }
+                operandOne = parseInt(readout.innerText);
                 clearDisplay();
                 break;
             case 'divide':
-                operandOne = parseInt(readout.innerText);
                 operator = 'divide';
+                if (operandOne !== null) {
+                    operandTwo = parseFloat(readout.innerText);
+                    clearDisplay();
+                    readout.innerText = operate(operator, operandOne, operandTwo);
+                    operandOne = readout.innerText;
+                    break;
+                }
+                operandOne = parseInt(readout.innerText);
                 clearDisplay();
                 break;
             case 'equals':
                 operandTwo = parseInt(readout.innerText);
                 clearDisplay();
                 readout.innerText = operate(operator, operandOne, operandTwo);
+                operandOne = readout.innerText;
         }
     });
 });
@@ -75,5 +95,5 @@ function populateDisplay (text) {
 }
 
 function clearDisplay () {
-    readout.textContent = '';
+    readout.textContent = null;
 }

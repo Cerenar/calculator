@@ -57,3 +57,7 @@ button {
     margin: 8px;
     flex: 1;
 }
+
+#equals {
+    flex-grow: 2.25;
+}
