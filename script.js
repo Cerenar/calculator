@@ -36,9 +36,10 @@ function operate (operator, operandOne, operandTwo) {
     }
 }
 
-buttons.forEach ((calcButton) => {
-    calcButton.addEventListener('click', () => {
-        readout.innerText += calcButton.innerText;
+buttons.forEach ((button) => {
+    button.addEventListener('click', () => {
+        if (button.id.match(/[0-9]/))
+            readout.innerText += button.id;
     });
 });
 
