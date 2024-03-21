@@ -26,10 +26,19 @@ body {
     background-color: darkcyan;
 }
 
+div {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
 #readout {
-    width: 100%;
-    border: 2px solid blue;
+    width: 400px;
+    height: 55px;
+    overflow: hidden;
+    text-overflow: clip;
+    direction: rtl;
     text-align: right;
+    border: 2px solid blue;
     font-size: 32px;
     padding: 8px;
     border-radius: 8px;

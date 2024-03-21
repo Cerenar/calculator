@@ -1,9 +1,9 @@
 const readout = document.querySelector("#readout");
 const buttons = document.querySelectorAll("button");
 
-let operandOne
-let operandTwo
-let operator
+let operandOne = 0;
+let operandTwo = 0;
+let operator = '';
 
 function add (a, b) {
     return a+b;
@@ -40,16 +40,38 @@ buttons.forEach ((button) => {
     button.addEventListener('click', () => {
         if (button.id.match(/[0-9]/))
             readout.innerText += button.id;
+        switch (button.id) {
+            case 'add':
+                operandOne = parseInt(readout.innerText);
+                operator = 'add';
+                clearDisplay();
+                break;
+            case 'subtract':
+                operandOne = parseInt(readout.innerText);
+                operator = 'subtract';
+                clearDisplay();
+                break;
+            case 'multiply':
+                operandOne = parseInt(readout.innerText);
+                operator = 'multiply';
+                clearDisplay();
+                break;
+            case 'divide':
+                operandOne = parseInt(readout.innerText);
+                operator = 'divide';
+                clearDisplay();
+                break;
+            case 'equals':
+                operandTwo = parseInt(readout.innerText);
+                clearDisplay();
+                readout.innerText = operate(operator, operandOne, operandTwo);
+        }
     });
 });
 
 function populateDisplay (text) {
-    screen += text;
-}
-
-function showResult () {
-    clearResult();
-    
+    clearDisplay();
+    readout.innerText = text;
 }
 
 function clearDisplay () {
