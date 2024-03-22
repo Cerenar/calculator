@@ -4,6 +4,8 @@ const buttons = document.querySelectorAll("button");
 let operandOne = null;
 let operandTwo = null;
 let operator = null;
+let previousOperator = null;
+let isFirstOperator = true;
 
 function add (a, b) {
     return a+b;
@@ -41,49 +43,79 @@ function operate (operator, operandOne, operandTwo) {
 
 buttons.forEach ((button) => {
     button.addEventListener('click', () => {
-        if (button.id.match(/[0-9]/))
+        if (isFirstOperator && button.id.match(/[0-9]/))
             readout.innerText += button.id;
+        else if(button.id.match(/[0-9]/)) {
+            clearDisplay();
+            readout.innerText += button.id;
+        }
         switch (button.id) {
             case 'add':
-                operandOne = parseInt(readout.innerText);
-                operator = 'add';
-                clearDisplay();
-                break;
-            case 'subtract':
-                operandOne = parseInt(readout.innerText);
-                operator = 'subtract';
-                clearDisplay();
-                break;
-            case 'multiply':
-                operator = 'multiply';
-                if (operandOne !== null) {
-                    let temp = operandTwo;
-                    operandOne = temp;
-                    operandTwo = readout.innerText;
+                operator = button.id;
+                if (isFirstOperator) {
+                    operandOne = parseFloat(readout.innerText);
                     clearDisplay();
-                    readout.innerText = operate(operator, operandOne, operandTwo);
-                    operandOne = readout.innerText;
-                    break;
+                    isFirstOperator = false;
                 }
-                operandOne = parseInt(readout.innerText);
-                clearDisplay();
-                break;
-            case 'divide':
-                operator = 'divide';
-                if (operandOne !== null) {
+                else {
                     operandTwo = parseFloat(readout.innerText);
                     clearDisplay();
-                    readout.innerText = operate(operator, operandOne, operandTwo);
-                    operandOne = readout.innerText;
-                    break;
+                    readout.innerText = operate(previousOperator, operandOne, operandTwo);
+                    operandOne = parseFloat(readout.innerText);
                 }
-                operandOne = parseInt(readout.innerText);
-                clearDisplay();
+                previousOperator = button.id;
+                break;
+            case 'subtract':
+                operator = button.id;
+                if (isFirstOperator) {
+                    operandOne = parseFloat(readout.innerText);
+                    clearDisplay();
+                    isFirstOperator = false;
+                }
+                else {
+                    operandTwo = parseFloat(readout.innerText);
+                    clearDisplay();
+                    readout.innerText = operate(previousOperator, operandOne, operandTwo);
+                    operandOne = parseFloat(readout.innerText);
+                }
+                previousOperator = button.id;
+                break;
+            case 'multiply':
+                operator = button.id;
+                if (isFirstOperator) {
+                    operandOne = parseFloat(readout.innerText);
+                    clearDisplay();
+                    isFirstOperator = false;
+                }
+                else {
+                    operandTwo = parseFloat(readout.innerText);
+                    clearDisplay();
+                    readout.innerText = operate(previousOperator, operandOne, operandTwo);
+                    operandOne = parseFloat(readout.innerText);
+                }
+                previousOperator = button.id;
+                break;
+            case 'divide':
+                operator = button.id;
+                if (isFirstOperator) {
+                    operandOne = parseFloat(readout.innerText);
+                    clearDisplay();
+                    isFirstOperator = false;
+                }
+                else {
+                    operandTwo = parseFloat(readout.innerText);
+                    clearDisplay();
+                    readout.innerText = operate(previousOperator, operandOne, operandTwo);
+                    operandOne = parseFloat(readout.innerText);
+                }
+                previousOperator = button.id;
                 break;
             case 'equals':
                 operandTwo = parseInt(readout.innerText);
                 clearDisplay();
                 readout.innerText = operate(operator, operandOne, operandTwo);
+                isFirstOperator = true;
+                previousOperator = null;
                 operandOne = readout.innerText;
         }
     });
