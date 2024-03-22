@@ -136,14 +136,19 @@ buttons.forEach ((button) => {
                 previousOperator = null;
                 isFirstButtonPress = true;
                 operandOne = readout.innerText;
+                break;
+            case 'clear':
+                clearDisplay();
+                operandOne = null;
+                operandTwo = null;
+                operator = null;
+                previousOperator = null;
+                isFirstOperator = true;
+                isFirstButtonPress = false;
+                break;
         }
     });
 });
-
-function populateDisplay (text) {
-    clearDisplay();
-    readout.innerText = text;
-}
 
 function clearDisplay () {
     readout.textContent = null;
